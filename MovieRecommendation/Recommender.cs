@@ -34,7 +34,7 @@ namespace MovieRecommendation
             return preferences;
         }
 
-        public float RecommendPearsonDistanceSimilarity(int userId, int movieId)
+        public float RecommendPearsonCorrelationSimilarity(int userId, int movieId)
         {
             dataModel = new FileDataModel(PathToDataFile, false, FileDataModel.DEFAULT_MIN_RELOAD_INTERVAL_MS, false, ",", userId, movieId);
             var similarity = new PearsonCorrelationSimilarity(dataModel);
