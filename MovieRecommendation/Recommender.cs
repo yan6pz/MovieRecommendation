@@ -1,4 +1,5 @@
-﻿using NReco.CF.Taste.Impl.Model.File;
+﻿using NReco.CF.Taste.Impl.Model;
+using NReco.CF.Taste.Impl.Model.File;
 using NReco.CF.Taste.Impl.Recommender;
 using NReco.CF.Taste.Impl.Similarity;
 using NReco.CF.Taste.Model;
@@ -27,6 +28,8 @@ namespace MovieRecommendation
         public float RecommendEuclideanDistanceSimilarity(int userId, int movieId)
         {
             dataModel = new FileDataModel(PathToDataFile, false, FileDataModel.DEFAULT_MIN_RELOAD_INTERVAL_MS, false, ",", userId,movieId);
+            var removedPrefs=GenericDataModel.preferenceFromUsersRemoved.Values;
+            var valueToCompare=removedPrefs.FirstOrDefault(i => i.GetItemID() == movieId).GetValue();
             var similarity = new EuclideanDistanceSimilarity(dataModel);
             var recommender = new GenericItemBasedRecommender(dataModel, similarity);
             var preferences = recommender.EstimatePreference(userId, movieId);
@@ -37,6 +40,8 @@ namespace MovieRecommendation
         public float RecommendPearsonCorrelationSimilarity(int userId, int movieId)
         {
             dataModel = new FileDataModel(PathToDataFile, false, FileDataModel.DEFAULT_MIN_RELOAD_INTERVAL_MS, false, ",", userId, movieId);
+            var removedPrefs = GenericDataModel.preferenceFromUsersRemoved.Values;
+            var valueToCompare = removedPrefs.FirstOrDefault(i => i.GetItemID() == movieId).GetValue();
             var similarity = new PearsonCorrelationSimilarity(dataModel);
             var recommender = new GenericItemBasedRecommender(dataModel, similarity);
             var preferences = recommender.EstimatePreference(userId, movieId);

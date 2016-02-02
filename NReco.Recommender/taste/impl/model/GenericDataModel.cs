@@ -44,7 +44,8 @@ public sealed class GenericDataModel : AbstractDataModel {
   
 	private long[] userIDs;
 	private FastByIDMap<IPreferenceArray> preferenceFromUsers;
-	private long[] itemIDs;
+    public static FastByIDMap<IPreference> preferenceFromUsersRemoved { get; set; }
+    private long[] itemIDs;
 	private FastByIDMap<IPreferenceArray> preferenceForItems;
 	private FastByIDMap<FastByIDMap<DateTime?>> timestamps;
   
@@ -145,11 +146,14 @@ public sealed class GenericDataModel : AbstractDataModel {
         public static FastByIDMap<IPreferenceArray> ToDataMap(FastByIDMap<IList<IPreference>> data,long userId,long itemId, bool byUser)
         {
             var newData = new FastByIDMap<IPreferenceArray>(data.Count());
+            preferenceFromUsersRemoved = new FastByIDMap<IPreference>();
             foreach (var entry in data.EntrySet())
             {
                 var prefList = entry.Value;
-                if(entry.Key==userId)
+                
+                if (entry.Key==userId)
                 {
+                    preferenceFromUsersRemoved.Put(userId, prefList.FirstOrDefault(i => i.GetItemID() == itemId));
                     prefList.Remove(prefList.FirstOrDefault(i => i.GetItemID() == itemId));
                 }
                 newData.Put(entry.Key,
