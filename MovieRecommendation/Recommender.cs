@@ -14,18 +14,19 @@ namespace MovieRecommendation
     public class Recommender
     {
         static IDataModel dataModel;
-
+        public string PathToDataFile { get; set; }
         public Recommender()
         {
-            var pathToDataFile = Path.Combine("../../data/ratings.dat");
-            if (dataModel == null)
-            {
-                dataModel = new FileDataModel(pathToDataFile, false, FileDataModel.DEFAULT_MIN_RELOAD_INTERVAL_MS, false, ",");
-            }
+            this.PathToDataFile = Path.Combine("../../data/ratings.dat");
+            //if (dataModel == null)
+            //{
+                
+            //}
         }
        
         public float RecommendEuclideanDistanceSimilarity(int userId, int movieId)
-        { 
+        {
+            dataModel = new FileDataModel(PathToDataFile, false, FileDataModel.DEFAULT_MIN_RELOAD_INTERVAL_MS, false, ",", userId,movieId);
             var similarity = new EuclideanDistanceSimilarity(dataModel);
             var recommender = new GenericItemBasedRecommender(dataModel, similarity);
             var preferences = recommender.EstimatePreference(userId, movieId);
@@ -33,7 +34,15 @@ namespace MovieRecommendation
             return preferences;
         }
 
+        public float RecommendPearsonDistanceSimilarity(int userId, int movieId)
+        {
+            dataModel = new FileDataModel(PathToDataFile, false, FileDataModel.DEFAULT_MIN_RELOAD_INTERVAL_MS, false, ",", userId, movieId);
+            var similarity = new PearsonCorrelationSimilarity(dataModel);
+            var recommender = new GenericItemBasedRecommender(dataModel, similarity);
+            var preferences = recommender.EstimatePreference(userId, movieId);
 
+            return preferences;
+        }
 
         //public float RecommendEuclideanDistanceSimilarity(int userId, int movieId)
         //{

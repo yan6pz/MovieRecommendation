@@ -50,9 +50,14 @@ namespace MovieRecommendation
             {
                 var rec = new Recommender();
 
-                if (status == Мeasures.EuclideanDistance)
+                switch(status)
                 {
-                    resultLabel.Text = rec.RecommendEuclideanDistanceSimilarity(userId, movieIds[0]).ToString();
+                    case Мeasures.EuclideanDistance:
+                        resultLabel.Text = rec.RecommendEuclideanDistanceSimilarity(userId, movieIds[0]).ToString();
+                        break;
+                    case Мeasures.PearsonCorrelativity:
+                        resultLabel.Text = rec.RecommendPearsonCorrelationSimilarity(userId, movieIds[0]).ToString();
+                        break;
                 }
             }
         }

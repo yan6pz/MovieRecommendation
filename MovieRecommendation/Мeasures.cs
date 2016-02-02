@@ -8,6 +8,7 @@ namespace MovieRecommendation
 {
     public enum Мeasures
     {
-        EuclideanDistance = 0
+        EuclideanDistance = 0,
+        PearsonCorrelativity = 1
     }
 }
