@@ -48,18 +48,26 @@ namespace MovieRecommendation
 
             if (int.TryParse(txtUserId.Text, out userId))
             {
+                Result result = new Result();
                 var rec = new Recommender();
 
                 switch(status)
                 {
                     case Мeasures.EuclideanDistance:
-                        resultLabel.Text = rec.RecommendEuclideanDistanceSimilarity(userId, movieIds[0]).ToString();
+                        result = rec.RecommendEuclideanDistanceSimilarity(userId, movieIds[0]);
                         break;
                     case Мeasures.PearsonCorrelativity:
-                        resultLabel.Text = rec.RecommendPearsonCorrelationSimilarity(userId, movieIds[0]).ToString();
+                        result = rec.RecommendPearsonCorrelationSimilarity(userId, movieIds[0]);
                         break;
                 }
+
+                resultLabel.Text = result.PredictedValue.ToString("0.00");
+                realValue.Text = result.RealValue.ToString("0.00");
+                percent.Text = result.CalculatePercent().ToString("0.00") + "%";
+
             }
+
+
         }
 
         private void label4_Click(object sender, EventArgs e)

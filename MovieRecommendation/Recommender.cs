@@ -25,8 +25,9 @@ namespace MovieRecommendation
             //}
         }
        
-        public float RecommendEuclideanDistanceSimilarity(int userId, int movieId)
+        public Result RecommendEuclideanDistanceSimilarity(int userId, int movieId)
         {
+            Result result = new Result();
             dataModel = new FileDataModel(PathToDataFile, false, FileDataModel.DEFAULT_MIN_RELOAD_INTERVAL_MS, false, ",", userId,movieId);
             var removedPrefs=GenericDataModel.preferenceFromUsersRemoved.Values;
             var valueToCompare=removedPrefs.FirstOrDefault(i => i.GetItemID() == movieId).GetValue();
@@ -34,11 +35,14 @@ namespace MovieRecommendation
             var recommender = new GenericItemBasedRecommender(dataModel, similarity);
             var preferences = recommender.EstimatePreference(userId, movieId);
 
-            return preferences;
+            result.PredictedValue = preferences;
+            result.RealValue = removedPrefs.First().GetValue();
+            return result;
         }
 
-        public float RecommendPearsonCorrelationSimilarity(int userId, int movieId)
+        public Result RecommendPearsonCorrelationSimilarity(int userId, int movieId)
         {
+            Result result = new Result();
             dataModel = new FileDataModel(PathToDataFile, false, FileDataModel.DEFAULT_MIN_RELOAD_INTERVAL_MS, false, ",", userId, movieId);
             var removedPrefs = GenericDataModel.preferenceFromUsersRemoved.Values;
             var valueToCompare = removedPrefs.FirstOrDefault(i => i.GetItemID() == movieId).GetValue();
@@ -46,7 +50,9 @@ namespace MovieRecommendation
             var recommender = new GenericItemBasedRecommender(dataModel, similarity);
             var preferences = recommender.EstimatePreference(userId, movieId);
 
-            return preferences;
+            result.PredictedValue = preferences;
+            result.RealValue = removedPrefs.First().GetValue();
+            return result;
         }
 
         //public float RecommendEuclideanDistanceSimilarity(int userId, int movieId)

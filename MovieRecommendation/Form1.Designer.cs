@@ -36,6 +36,8 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.resultLabel = new System.Windows.Forms.Label();
+            this.realValue = new System.Windows.Forms.Label();
+            this.percent = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -103,18 +105,44 @@
             // resultLabel
             // 
             this.resultLabel.AutoSize = true;
-            this.resultLabel.Location = new System.Drawing.Point(83, 256);
+            this.resultLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resultLabel.ForeColor = System.Drawing.Color.Orange;
+            this.resultLabel.Location = new System.Drawing.Point(56, 247);
             this.resultLabel.Name = "resultLabel";
-            this.resultLabel.Size = new System.Drawing.Size(37, 13);
+            this.resultLabel.Size = new System.Drawing.Size(39, 42);
             this.resultLabel.TabIndex = 7;
-            this.resultLabel.Text = "Result";
+            this.resultLabel.Text = "0";
             this.resultLabel.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // realValue
+            // 
+            this.realValue.AutoSize = true;
+            this.realValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.realValue.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.realValue.Location = new System.Drawing.Point(227, 247);
+            this.realValue.Name = "realValue";
+            this.realValue.Size = new System.Drawing.Size(39, 42);
+            this.realValue.TabIndex = 8;
+            this.realValue.Text = "0";
+            // 
+            // percent
+            // 
+            this.percent.AutoSize = true;
+            this.percent.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.percent.ForeColor = System.Drawing.Color.ForestGreen;
+            this.percent.Location = new System.Drawing.Point(384, 247);
+            this.percent.Name = "percent";
+            this.percent.Size = new System.Drawing.Size(72, 42);
+            this.percent.TabIndex = 9;
+            this.percent.Text = "0%";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(580, 346);
+            this.Controls.Add(this.percent);
+            this.Controls.Add(this.realValue);
             this.Controls.Add(this.resultLabel);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBox1);
@@ -140,6 +168,8 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label resultLabel;
+        private System.Windows.Forms.Label realValue;
+        private System.Windows.Forms.Label percent;
     }
 }
 
