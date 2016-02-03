@@ -48,22 +48,41 @@ namespace MovieRecommendation
 
             if (int.TryParse(txtUserId.Text, out userId))
             {
-                Result result = new Result();
+                List<Result> results = new List<Result>();
                 var rec = new Recommender();
 
-                switch(status)
+
+
+                foreach (int movieId in movieIds)
                 {
-                    case Мeasures.EuclideanDistance:
-                        result = rec.RecommendEuclideanDistanceSimilarity(userId, movieIds[0]);
-                        break;
-                    case Мeasures.PearsonCorrelativity:
-                        result = rec.RecommendPearsonCorrelationSimilarity(userId, movieIds[0]);
-                        break;
+                    if (status == Мeasures.EuclideanDistance)
+                    {
+                        results.Add(rec.RecommendEuclideanDistanceSimilarity(userId, movieId));
+                    }
+
+                    if (status == Мeasures.PearsonCorrelativity)
+                    {
+                        results.Add(rec.RecommendPearsonCorrelationSimilarity(userId, movieId));
+                    }
                 }
 
-                resultLabel.Text = result.PredictedValue.ToString("0.00");
-                realValue.Text = result.RealValue.ToString("0.00");
-                percent.Text = result.CalculatePercent().ToString("0.00") + "%";
+                if (movieIds.Count > 1)
+                {
+                    resultLabel.Visible = false;
+                    realValue.Visible = false;
+                    float sum = 0;
+                    foreach (Result res in results)
+                    {                 
+                        sum = sum + res.CalculatePercent();
+                    }
+                    percent.Text = (sum / results.Count).ToString("0.00");
+                }
+                else
+                {
+                    resultLabel.Text = results[0].PredictedValue.ToString("0.00");
+                    realValue.Text = results[0].RealValue.ToString("0.00");
+                    percent.Text = results[0].CalculatePercent().ToString("0.00") + "%";
+                }
 
             }
 

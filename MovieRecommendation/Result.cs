@@ -38,7 +38,7 @@ namespace MovieRecommendation
         public float CalculatePercent()
         {
             float error = Math.Abs((PredictedValue - RealValue) / RealValue) * 100;
-            return 100 - error;
+            return Math.Abs(100 - error);
         }
     }
 }
