@@ -51,16 +51,13 @@ namespace MovieRecommendation
                 List<Result> results = new List<Result>();
                 var rec = new Recommender();
 
-
-
                 foreach (int movieId in movieIds)
                 {
                     if (status == Мeasures.EuclideanDistance)
                     {
                         results.Add(rec.RecommendEuclideanDistanceSimilarity(userId, movieId));
                     }
-
-                    if (status == Мeasures.PearsonCorrelativity)
+                    else if(status == Мeasures.PearsonCorrelativity)
                     {
                         results.Add(rec.RecommendPearsonCorrelationSimilarity(userId, movieId));
                     }
@@ -73,15 +70,18 @@ namespace MovieRecommendation
                     float sum = 0;
                     foreach (Result res in results)
                     {                 
-                        sum = sum + res.CalculatePercent();
+                        sum = sum + res.CalculatePercentOfSuccess(status);
                     }
                     percent.Text = (sum / results.Count).ToString("0.00");
                 }
                 else
                 {
+                    resultLabel.Visible = true; 
+                    realValue.Visible = true;
+                    percent.Text = results[0].CalculatePercentOfSuccess(status).ToString("0.00") + "%";
                     resultLabel.Text = results[0].PredictedValue.ToString("0.00");
                     realValue.Text = results[0].RealValue.ToString("0.00");
-                    percent.Text = results[0].CalculatePercent().ToString("0.00") + "%";
+                   
                 }
 
             }
