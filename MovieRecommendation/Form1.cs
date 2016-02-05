@@ -53,13 +53,23 @@ namespace MovieRecommendation
 
                 foreach (int movieId in movieIds)
                 {
-                    if (status == Мeasures.EuclideanDistance)
+                    switch (status)
                     {
-                        results.Add(rec.RecommendEuclideanDistanceSimilarity(userId, movieId));
-                    }
-                    else if(status == Мeasures.PearsonCorrelativity)
-                    {
-                        results.Add(rec.RecommendPearsonCorrelationSimilarity(userId, movieId));
+                        case Мeasures.EuclideanDistance:
+                            results.Add(rec.RecommendEuclideanDistanceSimilarity(userId, movieId));
+                            break;
+
+                        case Мeasures.PearsonCorrelativity:
+                            results.Add(rec.RecommendPearsonCorrelationSimilarity(userId, movieId));
+                            break;
+
+                        case Мeasures.TanimotoSimilarity:
+                            results.Add(rec.RecommendTanimotoSimilarity(userId, movieId));
+                            break;
+
+                        case Мeasures.UncenteredCosine:
+                            results.Add(rec.RecommendLLRSimilarity(userId, movieId));
+                            break;
                     }
                 }
 

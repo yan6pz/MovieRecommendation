@@ -40,6 +40,36 @@ namespace MovieRecommendation
             return result;
         }
 
+        public Result RecommendLLRSimilarity(int userId, int movieId)
+        {
+            Result result = new Result();
+            dataModel = new FileDataModel(PathToDataFile, false, FileDataModel.DEFAULT_MIN_RELOAD_INTERVAL_MS, false, ",", userId, movieId);
+            var removedPrefs = GenericDataModel.preferenceFromUsersRemoved.Values;
+            var valueToCompare = removedPrefs.FirstOrDefault(i => i.GetItemID() == movieId).GetValue();
+            var similarity = new UncenteredCosineSimilarity(dataModel);
+            var recommender = new GenericItemBasedRecommender(dataModel, similarity);
+            var preferences = recommender.EstimatePreference(userId, movieId);
+
+            result.PredictedValue = preferences;
+            result.RealValue = removedPrefs.First().GetValue();
+            return result;
+        }
+
+        public Result RecommendTanimotoSimilarity(int userId, int movieId)
+        {
+            Result result = new Result();
+            dataModel = new FileDataModel(PathToDataFile, false, FileDataModel.DEFAULT_MIN_RELOAD_INTERVAL_MS, false, ",", userId, movieId);
+            var removedPrefs = GenericDataModel.preferenceFromUsersRemoved.Values;
+            var valueToCompare = removedPrefs.FirstOrDefault(i => i.GetItemID() == movieId).GetValue();
+            var similarity = new TanimotoCoefficientSimilarity(dataModel);
+            var recommender = new GenericItemBasedRecommender(dataModel, similarity);
+            var preferences = recommender.EstimatePreference(userId, movieId);
+
+            result.PredictedValue = preferences;
+            result.RealValue = removedPrefs.First().GetValue();
+            return result;
+        }
+
         public Result RecommendPearsonCorrelationSimilarity(int userId, int movieId)
         {
             Result result = new Result();
